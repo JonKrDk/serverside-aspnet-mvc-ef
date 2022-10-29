@@ -31,6 +31,46 @@ namespace WebshopApp.Controllers
             return View();
         }
 
+        public IActionResult ShowQuestion()
+        {
+            _logger.Log(LogLevel.Debug, "HomeController.ShowQuestion()");
+            return View();
+        }
+
+        public IActionResult CheckResult(string result, string operanda, string operandb)
+        {
+            _logger.Log(LogLevel.Debug, $"HomeController.CheckResul(result={result}, OperandA={operanda}, OperandB={operandb})");
+
+            string description;
+
+
+            int a;
+            int b;
+            int r;
+            int.TryParse(operanda, out a);
+            int.TryParse(operandb, out b);
+            int.TryParse(result, out r);
+
+            if (a + b == r)
+            {
+                description = "Jeps, det er rigtigt";
+            }
+            else
+            {
+                description = "Nej din skovl, det er forkert";
+            }
+
+            var resultModel = new CalcData()
+            {
+                OperandA = a,
+                OperandB = b,
+                Result = r,
+                Description = description
+            };
+
+            return View(resultModel);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

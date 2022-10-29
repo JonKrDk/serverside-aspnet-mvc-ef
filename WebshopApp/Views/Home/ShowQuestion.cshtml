@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Show Question";
+}
+
+<h1>Løs opgaven:</h1>
+@{
+    var random = new Random();
+    var operandA = random.Next(0, 10);
+    var operandB = random.Next(0, 10);
+}
+
+<p>Hvad giver @operandA + @operandB ?</p>
+
+<form asp-controller="Home" asp-action="CheckResult" method="post">
+    <div class="form-group">
+        @*<label asp-for="CheckResult" class="control-label"></label>*@
+        <input type="number" name="result" />
+        <input type="hidden" name="operanda" value="@operandA" />
+        <input type="hidden" name="operandb" value="@operandB" />
+        <br />
+        <br />
+        <input type="submit" value="Send" class="btn btn-primary" />
+    </div>
+</form>
