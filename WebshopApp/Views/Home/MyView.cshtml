@@ -1,7 +1,18 @@
-﻿
+﻿@using WebshopApp.Controllers
+@inject ILogger<HomeController> logger
+
 @{
     ViewData["Title"] = "MyView";
 }
 
 <h1>MyView</h1>
+
+@for (int a = 0; a < 10; a++)
+{
+    logger.LogDebug("We are in the loop");
+    var bob = "Hello my friend";
+    <p>This is line number @a</p>
+    <p>This is a string @bob</p>
+}
+
 
