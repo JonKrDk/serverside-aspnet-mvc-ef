@@ -55,6 +55,16 @@ namespace WebshopApp.Controllers
         {
             _logger.LogDebug($"HomeController.CheckResul(result={calcData.Result}, OperandA={calcData.OperandA}, OperandB={calcData.OperandB})");
 
+
+            string input = "Hallo";
+            string output = "";
+            foreach (char c in input)
+            {
+                output = c + output;
+            }
+            _logger.LogDebug($"HomeController.CheckResul(Input={input}, Output={output})");
+
+
             int error = calcData.OperandA / calcData.Result;
 
             if (calcData.OperandA + calcData.OperandB == calcData.Result)

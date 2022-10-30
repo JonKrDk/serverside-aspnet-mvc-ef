@@ -12,8 +12,9 @@ builder.Services.AddDbContext<WebshopDbContext>(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Host.UseSerilog((ctx, lc) =>
-    lc.WriteTo.Console()
-    .ReadFrom.Configuration(ctx.Configuration)
+    lc.ReadFrom.Configuration(ctx.Configuration)
+//lc.WriteTo.Console(restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose)
+//.ReadFrom.Configuration(ctx.Configuration)
 );
 
 var app = builder.Build();
