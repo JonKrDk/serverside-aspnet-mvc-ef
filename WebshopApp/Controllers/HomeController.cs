@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebshopApp.Models;
 
@@ -52,17 +53,9 @@ namespace WebshopApp.Controllers
         [HttpPost]
         public IActionResult CheckResult(CalcData calcData)
         {
-            _logger.Log(LogLevel.Debug, $"HomeController.CheckResul(result={calcData.Result}, OperandA={calcData.OperandA}, OperandB={calcData.OperandB})");
+            _logger.LogDebug($"HomeController.CheckResul(result={calcData.Result}, OperandA={calcData.OperandA}, OperandB={calcData.OperandB})");
 
-            // string description;
-
-
-            //int a;
-            //int b;
-            //int r;
-            //int.TryParse(operanda, out a);
-            //int.TryParse(operandb, out b);
-            //int.TryParse(result, out r);
+            int error = calcData.OperandA / calcData.Result;
 
             if (calcData.OperandA + calcData.OperandB == calcData.Result)
             {
@@ -73,21 +66,22 @@ namespace WebshopApp.Controllers
                 calcData.Description = "Nej din skovl, det er forkert";
             }
 
-            //var resultModel = new CalcData()
-            //{
-            //    OperandA = a,
-            //    OperandB = b,
-            //    Result = r,
-            //    Description = description
-            //};
-
             return View(calcData);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            _logger.Log(LogLevel.Debug, "HomeController.Error()");
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            if (exceptionHandlerPathFeature != null)
+            {
+                _logger.LogError(exceptionHandlerPathFeature.Error, "Shit Happens (With Exception)");
+            }
+            else
+            {
+                _logger.Log(LogLevel.Error, "Shit Happens...");
+            }
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

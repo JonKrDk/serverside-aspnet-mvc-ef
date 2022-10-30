@@ -12,21 +12,26 @@ namespace WebshopApp.Controllers
     public class BooksController : Controller
     {
         private readonly WebshopDbContext _context;
+        private readonly ILogger<BooksController> _logger;
 
-        public BooksController(WebshopDbContext context)
+        public BooksController(WebshopDbContext context, ILogger<BooksController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Books.ToListAsync());
+            _logger.LogDebug("BooksController.Index()");
+            return View(await _context.Books.ToListAsync());
         }
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            _logger.LogDebug($"BooksController.Details(id={id})");
+
             if (id == null || _context.Books == null)
             {
                 return NotFound();
@@ -45,6 +50,8 @@ namespace WebshopApp.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
+            _logger.LogDebug("BooksController.Create()");
+
             return View();
         }
 
@@ -55,6 +62,8 @@ namespace WebshopApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Author,NumberOfPages,Publisher,Price,ISBN,Category,Created")] Book book)
         {
+            _logger.LogDebug($"BooksController.Create(book={book})");
+
             if (ModelState.IsValid)
             {
                 _context.Add(book);

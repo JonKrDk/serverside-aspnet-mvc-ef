@@ -23,5 +23,10 @@ namespace WebshopApp.Data
 
         [Display(Name = "Created Timestamp")]
         public DateTime Created { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id={Id}, Title={Title}, Author={Author}, NumberOfPages={NumberOfPages}, Publisher={Publisher}, Price={Price}, ISBN={ISBN}, Category={Category}, Created={Created}";
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WebshopApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,14 @@ builder.Services.AddDbContext<WebshopDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Host.UseSerilog((ctx, lc) =>
+    lc.WriteTo.Console()
+    .ReadFrom.Configuration(ctx.Configuration)
+);
+
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
