@@ -34,41 +34,54 @@ namespace WebshopApp.Controllers
         public IActionResult ShowQuestion()
         {
             _logger.Log(LogLevel.Debug, "HomeController.ShowQuestion()");
-            return View();
+
+            
+            Random random = new Random();
+            
+            CalcData calcData = new CalcData()
+            {
+                OperandA = random.Next(1, 10),
+                OperandB = random.Next(1, 10),
+                Result = 0,
+                Description = ""
+            };
+
+            return View(calcData);
         }
 
-        public IActionResult CheckResult(string result, string operanda, string operandb)
+        [HttpPost]
+        public IActionResult CheckResult(CalcData calcData)
         {
-            _logger.Log(LogLevel.Debug, $"HomeController.CheckResul(result={result}, OperandA={operanda}, OperandB={operandb})");
+            _logger.Log(LogLevel.Debug, $"HomeController.CheckResul(result={calcData.Result}, OperandA={calcData.OperandA}, OperandB={calcData.OperandB})");
 
-            string description;
+            // string description;
 
 
-            int a;
-            int b;
-            int r;
-            int.TryParse(operanda, out a);
-            int.TryParse(operandb, out b);
-            int.TryParse(result, out r);
+            //int a;
+            //int b;
+            //int r;
+            //int.TryParse(operanda, out a);
+            //int.TryParse(operandb, out b);
+            //int.TryParse(result, out r);
 
-            if (a + b == r)
+            if (calcData.OperandA + calcData.OperandB == calcData.Result)
             {
-                description = "Jeps, det er rigtigt";
+                calcData.Description = "Jeps, det er rigtigt";
             }
             else
             {
-                description = "Nej din skovl, det er forkert";
+                calcData.Description = "Nej din skovl, det er forkert";
             }
 
-            var resultModel = new CalcData()
-            {
-                OperandA = a,
-                OperandB = b,
-                Result = r,
-                Description = description
-            };
+            //var resultModel = new CalcData()
+            //{
+            //    OperandA = a,
+            //    OperandB = b,
+            //    Result = r,
+            //    Description = description
+            //};
 
-            return View(resultModel);
+            return View(calcData);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

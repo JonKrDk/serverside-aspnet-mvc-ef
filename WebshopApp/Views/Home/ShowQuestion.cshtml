@@ -1,25 +1,39 @@
-﻿
+﻿@model WebshopApp.Models.CalcData
+
 @{
     ViewData["Title"] = "Show Question";
 }
 
 <h1>Løs opgaven:</h1>
-@{
-    var random = new Random();
-    var operandA = random.Next(0, 10);
-    var operandB = random.Next(0, 10);
-}
 
-<p>Hvad giver @operandA + @operandB ?</p>
+
+<p>Hvad giver @Model.OperandA + @Model.OperandB ?</p>
 
 <form asp-controller="Home" asp-action="CheckResult" method="post">
+    <input type="hidden" asp-for="OperandA" />
+    <input type="hidden" asp-for="OperandB" />
     <div class="form-group">
-        @*<label asp-for="CheckResult" class="control-label"></label>*@
-        <input type="number" name="result" />
-        <input type="hidden" name="operanda" value="@operandA" />
-        <input type="hidden" name="operandb" value="@operandB" />
-        <br />
-        <br />
+        <label asp-for="Result" class="control-label"></label>
+        <input asp-for="Result" class="form-control" />
+        <span asp-validation-for="Result" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
         <input type="submit" value="Send" class="btn btn-primary" />
     </div>
 </form>
+
+<br />
+<p id="hintBtn" class="btn btn-primary">Hint</p>
+<br />
+<p id="hintMessage" style="display:none">Her er et hint!!!</p>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#hintBtn').click(function (e) {
+                $('#hintMessage').show();
+            })
+        });
+    </script>
+}
