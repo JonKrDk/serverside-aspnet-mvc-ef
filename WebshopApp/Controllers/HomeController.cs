@@ -16,13 +16,26 @@ namespace WebshopApp.Controllers
 
         public IActionResult Index()
         {
-            _logger.Log(LogLevel.Debug, "HomeController.Index()");
+            _logger.LogDebug("HomeController.Index()");
             return View();
         }
 
         public IActionResult Privacy()
         {
             _logger.Log(LogLevel.Debug, "HomeController.Privacy()");
+
+            try
+            {
+                int a = 0;
+                int b = 0;
+                int c = a / b;
+                _logger.LogDebug($"{c}");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception, "Hvad er nu det?");
+            }
+
             return View();
         }
 

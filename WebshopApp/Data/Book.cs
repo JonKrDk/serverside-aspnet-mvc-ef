@@ -7,6 +7,8 @@ namespace WebshopApp.Data
     {
         public int Id { get; set; }
 
+        [Required]
+        [Range(5,25)]
         public string Title { get; set; }
 
         [StringLength(20)]
